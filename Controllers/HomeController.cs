@@ -48,8 +48,32 @@ namespace BMICalculator.Controllers
                 ViewBag.Bmi = CalculateBmi(bmiData);
                 ViewBag.BasicMetabolism = CalculateBasicMetabolism(bmiData);
                 ViewBag.Metabolism = Math.Round(CalculateMetabolism(ViewBag.BasicMetabolism, bmiData.Pal.Value), 0);
+                ViewBag.BmiMessage = GetBmiMessage(ViewBag.Bmi);
             }
             return View("Index");
+        }
+
+        private string GetBmiMessage(double bmi)
+        {
+            if (bmi < 16)
+                return "Jesteś wygłodzony";
+            else if (bmi < 17)
+                return "Jesteś wychudzony";
+            else if (bmi < 18.5)
+                return "Masz niedowagę ";
+            else if (bmi < 25)
+                return "Masz pożądaną masę ciała";
+            else if (bmi < 30)
+                return "Masz nadwagę";
+            else if (bmi < 35)
+                return "Masz otyłość I stopnia";
+            else if (bmi < 40)
+                return "Masz otyłość II stopnia";
+            else 
+                return "Masz otyłość III stopnia";
+
+
+
         }
 
         private double CalculateMetabolism(double basicMetabolism, PAL pal)
