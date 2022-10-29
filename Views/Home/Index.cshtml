@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "BMI Kalkulator";
+}
+@model BMICalculator.Models.BMIData
+@using BMICalculator.Enums;
+
+<div class="text-center">
+    <h1 class="display-4">Witaj w kalkulatorze BMI!</h1>
+    @if (ViewBag.Bmi == null)
+    {
+        @using (Html.BeginForm("BmiForm", "Home", FormMethod.Post))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <table>
+                <tr>
+                    <td>Podaj swój wiek: </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Age, new { @type = "number" })
+                                        @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                                    </td>
+                </tr>
+                <tr>
+                    <td>Podaj swoją płeć: </td>
+                    <td>
+                        @Html.DropDownListFor(x => x.Gender, Html.GetEnumSelectList<Gender>(), "Wybierz płeć", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>Podaj swój wzrost (w centrymetrach): </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Height, new { @type = "number" })
+                                        @Html.ValidationMessageFor(model => model.Height, "", new { @class = "text-danger" })
+                                    </td>
+                </tr>
+                <tr>
+                    <td>Podaj swoją wagę (w kilogramach): </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Weight, new { @type = "{0:n2}" })
+                                        @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                                    </td>
+                </tr>
+                <tr>
+                    <td>Podaj swoją aktywność fizyczną: </td>
+                    <td>
+                        @Html.DropDownListFor(x => x.Pal, Html.GetEnumSelectList<PAL>(), "Wybierz aktywność fizyczną", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pal, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Policz" /></td>
+                </tr>
+            </table>
+        }
+    }
+    else
+    {
+        <span>Twoje BMI wynosi: @ViewBag.Bmi</span>
+        <span>Twoja przemiana materii wynosi: @ViewBag.Metabolism kcal</span>
+        <span>Aby schudnąć musisz jeść @Math.Round(ViewBag.Metabolism * 0.75, 0) kcal</span>
+        <span>Aby utrzymać wagę jedz dokładnie tyle, ile wynosi Twoje zapotrzebowanie kaloryczne</span>
+        <span>Aby przytyć jedz @Math.Round(ViewBag.Metabolism * 1.15, 0) kcal </span>
+        <a class="btn btn-primary" href="@Url.Action("RecalculateBmi","Home")">Policz ponownie</a>
+    }
+</div>
