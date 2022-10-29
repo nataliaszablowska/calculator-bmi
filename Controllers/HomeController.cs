@@ -47,7 +47,7 @@ namespace BMICalculator.Controllers
                 ViewBag.Pal = bmiData.Pal;
                 ViewBag.Bmi = CalculateBmi(bmiData);
                 ViewBag.BasicMetabolism = CalculateBasicMetabolism(bmiData);
-                ViewBag.Metabolism = Math.Round(CalculateMetabolism(ViewBag.BasicMetabolism, bmiData.Pal), 0);
+                ViewBag.Metabolism = Math.Round(CalculateMetabolism(ViewBag.BasicMetabolism, bmiData.Pal.Value), 0);
             }
             return View("Index");
         }
@@ -62,9 +62,9 @@ namespace BMICalculator.Controllers
             switch (bmiData.Gender)
             {
                 case Enums.Gender.FEMALE:
-                    return 655 + (9.6 * bmiData.Weight) + (1.85 * bmiData.Height) - (4.7 * bmiData.Age);
+                    return 655 + (9.6 * bmiData.Weight.Value) + (1.85 * bmiData.Height.Value) - (4.7 * bmiData.Age.Value);
                 case Enums.Gender.MALE:
-                    return 66.5 + (13.7 * bmiData.Weight) +(5 * bmiData.Height) - (6.8 * bmiData.Age);
+                    return 66.5 + (13.7 * bmiData.Weight.Value) +(5 * bmiData.Height.Value) - (6.8 * bmiData.Age.Value);
                 default:
                     throw new NotImplementedException();
             }
@@ -72,7 +72,7 @@ namespace BMICalculator.Controllers
 
         private double CalculateBmi(BMIData bmiData)
         {
-            return Math.Round(bmiData.Weight / Math.Pow((float)bmiData.Height / 100, 2), 2);
+            return Math.Round(bmiData.Weight.Value / Math.Pow((float)bmiData.Height.Value / 100, 2), 2);
         }
     }
 }
